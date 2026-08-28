@@ -14,10 +14,10 @@ Windows Endpoint → Sysmon → Universal Forwarder → Splunk Enterprise → De
 
 | Detection | ATT&CK |
 |---|---|
-| PowerShell Encoded Command Execution | T1059.001 |
-| Suspicious Rundll32 Execution | T1218.011 |
-| Run Key Persistence | T1547.001 |
-| User-Writable Executable Execution | Behavioral detection |
+| [PowerShell Encoded Command Execution](detections/01-powershell-encoded) | T1059.001 |
+| [Suspicious Rundll32 Execution](detections/02-rundll32-user-writable) | T1218.011 |
+| [Run Key Persistence](detections/03-runkey-persistence) | T1547.001 |
+| [User-Writable Executable Execution](detections/04-user-writable-executable) | Behavioral detection |
 
 ## What This Demonstrates
 
