@@ -1,4 +1,4 @@
-# HomeSOC — Splunk Detection Lab
+# Splunk SOC Detection Lab
 
 Hands-on Windows SOC lab focused on **SIEM monitoring, detection engineering, alerting, and investigation**.
 
