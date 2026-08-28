@@ -1,0 +1,4 @@
+index=* host="DESKTOP-8DB1757" sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+| search CommandLine="*-EncodedCommand*"
+| table _time Image CommandLine ParentImage ParentCommandLine User IntegrityLevel
+| sort - _time
