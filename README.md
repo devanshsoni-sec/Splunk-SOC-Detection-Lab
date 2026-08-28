@@ -25,7 +25,7 @@ Windows endpoint telemetry collection, SPL detection development and tuning, rea
 
 ## Dashboard
 
-![SOC Dashboard](dashboard/01-dashboard-top.png)
+![SOC Dashboard](dashboard/02-dashboard-detections.png)
 
 ## Validation
 
