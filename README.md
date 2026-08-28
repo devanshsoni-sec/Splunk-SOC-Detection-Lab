@@ -1,6 +1,6 @@
 # Splunk SOC Detection Lab
 
-Hands-on Windows SOC lab focused on SIEM monitoring, detection engineering, alerting, and investigation.
+Hands-on Windows SOC lab focused on SIEM monitoring, detection engineering, real-time alerting, and investigation.
 
 ## Stack
 
@@ -19,20 +19,24 @@ Windows Endpoint → Sysmon → Universal Forwarder → Splunk Enterprise → De
 | [Run Key Persistence](detections/03-runkey-persistence) | T1547.001 |
 | [User-Writable Executable Execution](detections/04-user-writable-executable) | Behavioral detection |
 
-## What This Demonstrates
-
-Windows endpoint telemetry collection, SPL detection development and tuning, real-time alerting, process and persistence investigation, false-positive analysis, MITRE ATT&CK mapping, and SOC dashboarding.
-
 ## Dashboard
 
 ![SOC Dashboard](dashboard/02-dashboard-detections.png)
 
+## Investigations
+
+[PowerShell Encoded Command](investigations/01-powershell-encoded) · [Rundll32](investigations/02-rundll32) · [Run Key Persistence](investigations/03-runkey-persistence) · [User-Writable Executable](investigations/04-user-writable-executable)
+
+## What This Demonstrates
+
+Windows endpoint telemetry, SPL detection development and tuning, real-time alerting, process and persistence investigation, false-positive analysis, MITRE ATT&CK mapping, and SOC dashboarding.
+
 ## Validation
 
-Each detection was tested with controlled lab activity and verified through Sysmon telemetry, Splunk searches, and real-time alerts.
+Four detections were tested with controlled lab activity and verified through Sysmon telemetry, Splunk searches, and real-time alerts.
 
-## Evidence
+## Documentation
 
-Detection logic, investigation case studies, dashboard evidence, and supporting documentation are included in the repository.
+[MITRE Mapping](docs/MITRE-MAPPING.md) · [Deployment](docs/deployment.md) · [Detection Tuning](docs/detection-tuning.md) · [Final QA](docs/final-qa.md)
 
 > Controlled home lab environment. Test activity is benign.
