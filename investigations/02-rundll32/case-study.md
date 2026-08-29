@@ -14,7 +14,7 @@ SOC - Suspicious Rundll32 Execution from User-Writable Path
 - DLL reference: `C:\Users\HomeSOC\AppData\Local\Temp\homesoc-test.dll`
 - No network activity was observed for PID 1148.
 - No file-creation activity was observed for PID 1148.
-- No Sysmon Event ID 7 module-load activity was observed for PID 1148.
+- Sysmon Event ID 7 telemetry is not collected in the current configuration, so DLL loading could not be confirmed or excluded.
 
 ## Assessment
 The detection identified execution of the legitimate Windows `rundll32.exe` binary referencing a DLL from a user-writable Temp directory.
