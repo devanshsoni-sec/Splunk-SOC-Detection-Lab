@@ -37,6 +37,6 @@ Four detections were tested with controlled lab activity and verified through Sy
 
 ## Documentation
 
-[MITRE Mapping](docs/MITRE-MAPPING.md) · [Deployment](docs/deployment.md) · [Detection Tuning](docs/detection-tuning.md) · [Final QA](docs/final-qa.md)
+[MITRE Mapping](docs/mitre-mapping.md) · [Deployment](docs/deployment.md) · [Detection Tuning](docs/detection-tuning.md) · [Final QA](docs/final-qa.md)
 
 > Controlled home lab environment. Test activity is benign.
