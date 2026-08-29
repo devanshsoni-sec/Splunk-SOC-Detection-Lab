@@ -8,9 +8,23 @@ Identify Windows Run and RunOnce registry modifications that reference executabl
 
 Sysmon Event ID 13 — Registry Value Set.
 
-## Detection Logic
+## Alert Search
 
-The detection identifies Run and RunOnce registry value modifications and filters for payload paths under locations such as AppData, Temp, Users\Public, or Downloads.
+```
+index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=13
+| search (TargetObject="*\\CurrentVersion\\Run\\*" OR TargetObject="*\\CurrentVersion\\RunOnce\\*")
+| search Details="*\\AppData\\*" OR Details="*\\Temp\\*" OR Details="*\\Users\\Public\\*" OR Details="*\\Downloads\\*"
+```
+
+## Triage Search
+
+```
+index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=13
+| search (TargetObject="*\\CurrentVersion\\Run\\*" OR TargetObject="*\\CurrentVersion\\RunOnce\\*")
+| search Details="*\\AppData\\*" OR Details="*\\Temp\\*" OR Details="*\\Users\\Public\\*" OR Details="*\\Downloads\\*"
+| table _time host Image TargetObject Details User
+| sort - _time
+```
 
 ## Why It Matters
 
@@ -23,6 +37,10 @@ Real-time, per-result alert with Triggered Alerts and Log Event actions.
 ## Validation
 
 Validated using controlled HomeSOC lab activity by creating a Run key that referenced an executable in the user's Temp directory. The generic detection matched the resulting Sysmon event and successfully triggered the Splunk alert.
+
+## Scope
+
+This analytic focuses on Run and RunOnce registry values that reference selected user-writable locations. It does not identify every persistence mechanism or every possible Run Key configuration.
 
 ## Analyst Checks
 
