@@ -5,7 +5,7 @@ SOC - PowerShell Encoded Command Execution
 
 ## Timeline
 - 03:53:01 UTC — PowerShell executed with `-EncodedCommand`.
-- 03:53:03 UTC — PowerShell created a temporary `.ps1` file.
+- 03:53:03 UTC — During the investigation, Sysmon Event ID 11 recorded creation of `C:\Users\HomeSOC\AppData\Local\Temp\__PSScriptPolicyTest_dsz1s1pt.0md.ps1` by `powershell.exe`. This is a PowerShell script-policy test artifact associated with the controlled execution rather than evidence of a malicious payload.
 
 ## Process Chain
 `explorer.exe → cmd.exe (PID 6656) → powershell.exe (PID 3660)`
