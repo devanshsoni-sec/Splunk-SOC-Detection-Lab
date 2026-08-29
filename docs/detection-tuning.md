@@ -1,9 +1,27 @@
 # Detection Tuning
 
-The detections were validated against normal endpoint activity before being finalized.
+The detections were tested against broader endpoint activity before finalization. The goal was to reduce expected Windows and application noise while preserving useful security signals.
 
-Broad searches were reviewed for expected Windows and application behavior. Noisy patterns were narrowed where necessary so that alerts focus on activity more relevant to analyst triage.
+## Baseline Findings
 
-Examples include restricting Rundll32 activity to user-writable paths and combining Run Key persistence with a user-writable payload location.
+File creation activity produced 209 events during initial review, including legitimate Windows, Edge, WebView, PowerShell, and Office activity. No standalone file-creation alert was retained.
 
-The final rules prioritize useful investigative context over maximum event volume.
+Run Key activity produced 22 events, including legitimate Edge, VirtualBox, and Windows startup entries. The final analytic was narrowed to Run and RunOnce values referencing payloads in user-writable locations.
+
+Executable execution from user-writable locations initially produced 12 events. Legitimate application activity, including OneDrive-related execution, was observed. The final analytic was narrowed to Temp, Users\Public, and Downloads.
+
+## Detection Design
+
+The final rules prioritize contextual indicators over raw event volume. Path, registry location, process image, command line, and user context are used where relevant.
+
+## Alerting
+
+Real-time per-result alerts were used to demonstrate immediate detection behavior in the controlled lab. Production deployments should evaluate search cost, event volume, throttling, suppression, routing, and whether scheduled alerting is more appropriate.
+
+## Validation
+
+Each final detection was tested with controlled lab activity and verified through Sysmon telemetry, Splunk searches, and triggered alerts.
+
+## Principle
+
+A detection is not improved by generating more alerts. The objective is to produce alerts that provide useful investigative context and can be reasonably triaged by an analyst.
