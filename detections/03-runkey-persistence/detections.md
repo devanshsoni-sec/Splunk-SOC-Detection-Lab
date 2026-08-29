@@ -2,36 +2,32 @@
 
 ## Objective
 
-Identify Windows Run/RunOnce persistence that points to an executable or script stored in a user-writable location.
+Identify Windows Run and RunOnce registry modifications that reference executable or script payloads stored in user-writable locations.
 
 ## Data Source
 
-- Sysmon Event IDs 12, 13, 14 — Registry Activity
-- Windows endpoint telemetry collected in Splunk
+Sysmon Event ID 13 — Registry Value Set.
 
 ## Detection Logic
 
-The rule looks for Run/RunOnce registry activity and then filters for payload paths under locations such as AppData, Temp, Users\Public, or Downloads.
+The detection identifies Run and RunOnce registry value modifications and filters for payload paths under locations such as AppData, Temp, Users\Public, or Downloads.
 
 ## Why It Matters
 
-Registry Run keys are a common persistence mechanism. A Run-key value referencing a payload from a user-writable directory warrants investigation.
+Run and RunOnce keys are common persistence mechanisms. A startup value pointing to a user-writable location warrants investigation.
 
 ## Alerting
 
-- Type: Real-time
-- Trigger: Per Result
-- Severity: Medium
-- Actions: Triggered Alerts + Log Event
+Real-time, per-result alert with Triggered Alerts and Log Event actions.
 
 ## Validation
 
-Validated using controlled HomeSOC lab activity that created a Run key pointing to an executable in the user's Temp directory. The detection successfully generated the corresponding Splunk alert.
-
-## ATT&CK
-
-T1547.001 — Registry Run Keys / Startup Folder
+Validated using controlled HomeSOC lab activity by creating a Run key that referenced an executable in the user's Temp directory. The generic detection matched the resulting Sysmon event and successfully triggered the Splunk alert.
 
 ## Analyst Checks
 
-Review the registry key, payload path, writing process, user context, executable/script reputation, parent-child activity, and any subsequent execution before escalation.
+Review the registry target, payload path, writing process, user context, file reputation, signature status, and subsequent execution before escalation.
+
+## ATT&CK Mapping
+
+T1547.001 — Registry Run Keys / Startup Folder
