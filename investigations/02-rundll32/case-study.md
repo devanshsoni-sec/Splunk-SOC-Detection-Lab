@@ -17,7 +17,7 @@ SOC - Suspicious Rundll32 Execution from User-Writable Path
 - Sysmon Event ID 7 telemetry is not collected in the current configuration, so DLL loading could not be confirmed or excluded.
 
 ## Assessment
-The detection identified execution of the legitimate Windows `rundll32.exe` binary referencing a DLL from a user-writable Temp directory.
+The detection identified a `rundll32.exe` invocation referencing a DLL in the user's Temp directory. The referenced DLL was intentionally non-existent, so the validation confirmed detection of the suspicious invocation and path, not successful DLL loading or execution.
 
 ## Analyst Conclusion
 Benign controlled lab activity. The behavior is detection-relevant because `rundll32.exe` can be abused to proxy DLL execution. No malicious follow-on activity was observed in the investigation window.
