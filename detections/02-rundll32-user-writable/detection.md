@@ -1,37 +1,53 @@
-# Suspicious Rundll32 Execution from User-Writable Path
+# Suspicious Rundll32 Execution from a User-Writable Path
 
 ## Objective
 
-Identify rundll32.exe executions that reference DLL content from user-writable locations.
+Identify `rundll32.exe` executions that reference DLL content from user-writable locations.
 
 ## Data Source
 
-- Sysmon Event ID 1 — Process Creation
-- Windows endpoint telemetry collected in Splunk
+Sysmon Event ID 1 — Process Creation.
 
-## Detection Logic
+## Alert Search
 
-The rule identifies `rundll32.exe` process creation and filters for command lines referencing AppData, Temp, or other user-writable locations.
+```
+index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+| search Image="*\\rundll32.exe"
+| search CommandLine="*\\AppData\\*" OR CommandLine="*\\Temp\\*" OR CommandLine="*\\Users\\Public\\*"
+```
+
+## Triage Search
+
+```
+index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+| search Image="*\\rundll32.exe"
+| search CommandLine="*\\AppData\\*" OR CommandLine="*\\Temp\\*" OR CommandLine="*\\Users\\Public\\*"
+| table _time host Image CommandLine ParentImage ParentCommandLine User IntegrityLevel ProcessId ParentProcessId
+| sort - _time
+```
 
 ## Why It Matters
 
-Rundll32 is a Windows signed binary that can be abused to proxy execution of DLL content. A user-writable DLL path increases investigation priority.
+Rundll32 is a legitimate Windows binary that can be abused to proxy DLL execution. A DLL reference from a user-writable location warrants investigation.
 
 ## Alerting
 
-- Type: Real-time
-- Trigger: Per Result
-- Severity: Medium
-- Actions: Triggered Alerts + Log Event
+Real-time, per-result alert with Triggered Alerts and Log Event actions.
 
 ## Validation
 
-Validated using controlled HomeSOC lab activity referencing a DLL from the user's Temp directory. The detection successfully generated the corresponding Splunk alert.
+Validated using controlled HomeSOC lab activity with a Rundll32 invocation referencing a DLL path under the user's Temp directory. The Sysmon process event matched the analytic and triggered the Splunk alert.
 
-## ATT&CK
+The referenced DLL was intentionally non-existent, so the test validated detection of the suspicious invocation and path, not successful DLL loading or execution.
 
-T1218.011 — System Binary Proxy Execution: Rundll32
+## Scope
+
+This analytic focuses on Rundll32 executions whose command line references selected user-writable locations. It does not identify every possible Rundll32 abuse technique.
 
 ## Analyst Checks
 
-Review the DLL path, parent process, command line, user, integrity level, file reputation, signature status, and network activity before escalation.
+Review the DLL path, command line, parent-child process relationship, user, integrity level, file existence and reputation, signature status, and relevant network or module-load telemetry when available.
+
+## ATT&CK Mapping
+
+T1218.011 — System Binary Proxy Execution: Rundll32
