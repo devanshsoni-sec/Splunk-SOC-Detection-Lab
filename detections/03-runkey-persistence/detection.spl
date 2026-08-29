@@ -1,5 +1,3 @@
-index=* host="DESKTOP-8DB1757" sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" (EventCode=12 OR EventCode=13 OR EventCode=14)
-| search TargetObject="*\\CurrentVersion\\Run*" OR TargetObject="*\\CurrentVersion\\RunOnce*"
+index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=13
+| search (TargetObject="*\\CurrentVersion\\Run\\*" OR TargetObject="*\\CurrentVersion\\RunOnce\\*")
 | search Details="*\\AppData\\*" OR Details="*\\Temp\\*" OR Details="*\\Users\\Public\\*" OR Details="*\\Downloads\\*"
-| table _time EventCode Image TargetObject Details User
-| sort - _time
