@@ -27,7 +27,7 @@ No file-creation activity was observed in the investigation window.
 
 The executable name did not match its embedded original filename. Sysmon reported `Image` as `HomeSOC-Test2.exe` while `OriginalFileName` was `Cmd.Exe`, indicating that the test executable was a renamed copy of the Windows command interpreter.
 
-This provided additional investigation context consistent with masquerading behavior. The observation alone does not establish malicious intent.
+The observation is consistent with masquerading behavior; however, the controlled test does not establish malicious intent.
 
 ## Assessment
 
