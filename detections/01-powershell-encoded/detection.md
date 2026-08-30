@@ -2,7 +2,7 @@
 
 ## Objective
 
-Identify PowerShell process creation using encoded-command parameters.
+Identify PowerShell process creation using encoded command parameters.
 
 ## Data Source
 
@@ -13,7 +13,7 @@ Sysmon Event ID 1 — Process Creation.
 ```spl
 index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
 | search (Image="*\\powershell.exe" OR Image="*\\pwsh.exe")
-| regex CommandLine="(?i)\s-(?:e|ec|enc|encodedcommand)\b\s+[A-Za-z0-9+/=]{20,}"
+| regex CommandLine="(?i)\s[-/](?:e|ec|en|enc|enco|encod|encode|encoded|encodedcommand)\b\s+[A-Za-z0-9+/=]{20,}"
 ```
 
 ## Triage Search
@@ -21,14 +21,14 @@ index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCo
 ```spl
 index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
 | search (Image="*\\powershell.exe" OR Image="*\\pwsh.exe")
-| regex CommandLine="(?i)\s-(?:e|ec|enc|encodedcommand)\b\s+[A-Za-z0-9+/=]{20,}"
+| regex CommandLine="(?i)\s[-/](?:e|ec|en|enc|enco|encod|encode|encoded|encodedcommand)\b\s+[A-Za-z0-9+/=]{20,}"
 | table _time host Image CommandLine ParentImage ParentCommandLine User IntegrityLevel ProcessId ParentProcessId
 | sort - _time
 ```
 
 ## Why It Matters
 
-Encoded PowerShell commands can conceal command content and warrant investigation for possible obfuscation or malicious execution. MITRE identifies PowerShell execution as T1059.001 and command obfuscation as T1027.010. :contentReference[oaicite:1]{index=1}
+Encoded PowerShell commands can conceal command content and warrant investigation for possible obfuscation or malicious execution. MITRE maps PowerShell execution to T1059.001 and command obfuscation to T1027.010.
 
 ## Alerting
 
@@ -46,13 +46,17 @@ The resulting Sysmon events successfully triggered the Splunk alert.
 
 ## Scope
 
-This analytic detects direct PowerShell invocations using selected encoded-command parameter forms: `-e`, `-ec`, `-enc`, and `-EncodedCommand`.
+This analytic detects direct PowerShell invocations using a set of encoded command parameter forms beginning with `-` or `/`. The lab specifically validated `-EncodedCommand` and `-enc`.
 
 It does not detect all forms of PowerShell obfuscation, encoded content used outside these parameters, or indirect PowerShell execution through other interfaces.
 
+## Known False Positives
+
+Legitimate administrative or automation scripts may use encoded PowerShell commands. Alert disposition should therefore consider the command content, parent process, user context, and surrounding activity.
+
 ## Analyst Checks
 
-Review the command line and decode the encoded content where appropriate. Examine the parent-child process relationship, user, integrity level, follow-on file activity, network activity, and other endpoint context before escalation.
+Review and decode the command where appropriate. Examine the parent-child process relationship, user, integrity level, follow-on file activity, network activity, and other endpoint context before escalation.
 
 ## ATT&CK Mapping
 
