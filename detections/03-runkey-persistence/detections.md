@@ -16,6 +16,12 @@ index=main sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCo
 | search Details="*\\AppData\\*" OR Details="*\\Temp\\*" OR Details="*\\Users\\Public\\*" OR Details="*\\Downloads\\*"
 ```
 
+## Detection Development
+
+The initial validation search targeted the test value `HomeSOCDiffTest2`, which was useful for confirming the observed registry event but was too specific for a reusable detection. The rule was generalized to detect Run and RunOnce modifications that reference payloads in selected user-writable locations.
+
+The generalized rule was then independently validated with a new registry value, `HomeSOCQA`, pointing to a Temp executable. The generic rule matched the new event and the Splunk alert triggered successfully.
+
 ## Triage Search
 
 ```spl
@@ -36,7 +42,7 @@ Real-time, per-result alert with Triggered Alerts and Log Event actions.
 
 ## Validation
 
-The initial rule was narrowed after broad Run Key activity produced legitimate startup entries. The final generic detection was then validated using a new registry value, `HomeSOCQA`, pointing to a Temp executable. The generic rule matched the new event and the Splunk alert triggered successfully.
+Validated using controlled HomeSOC lab activity by creating a Run key that referenced an executable in the user's Temp directory. The generic detection matched the resulting Sysmon event and successfully triggered the Splunk alert.
 
 ## Scope
 
