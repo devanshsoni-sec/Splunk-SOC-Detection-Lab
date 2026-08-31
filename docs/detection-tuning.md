@@ -14,6 +14,10 @@ Executable execution from user-writable locations initially produced 12 events. 
 
 The final rules prioritize contextual indicators over raw event volume. Path, registry location, process image, command line, and user context are used where relevant.
 
+## Detection Considered but Not Deployed
+
+A candidate network detection was reviewed during validation. Activity involving the Splunk forwarding port was identified as legitimate lab infrastructure traffic rather than suspicious endpoint behavior. The rule was therefore not deployed to avoid generating a known false positive.
+
 ## Alerting
 
 Real-time per-result alerts were used to demonstrate immediate detection behavior in the controlled lab. Production deployments should evaluate search cost, event volume, throttling, suppression, routing, and whether scheduled alerting is more appropriate.
