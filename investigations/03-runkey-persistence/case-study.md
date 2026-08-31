@@ -19,8 +19,7 @@ SOC - Suspicious Run Key Persistence to User-Writable Path
 - No network activity was observed in the investigation window.
 
 ## Assessment
-The detection identified a Run-key persistence mechanism pointing to an executable in a user-writable Temp directory.
-The Run Key referenced the same Temp executable later observed in the user-writable executable detection, linking the persistence event to subsequent process execution.
+The Run Key referenced the same Temp executable later observed in the user-writable executable detection. The shared payload path establishes a correlation between the two events, but the available evidence does not establish that the Run Key directly caused the subsequent execution.
 
 ## Analyst Conclusion
 Benign controlled lab activity. The persistence technique is detection-relevant and would require validation of the payload, process lineage, user context, and subsequent execution in a real investigation.
