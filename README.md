@@ -21,7 +21,7 @@ Windows Endpoint → Sysmon → Universal Forwarder → Splunk Enterprise → De
 
 ## Dashboard
 
-![SOC Dashboard](dashboard/02-dashboard-detections.png)
+![SOC Dashboard](dashboard/02-dashboard-detection.png)
 
 ## Investigations
 
